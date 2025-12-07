@@ -41,6 +41,7 @@ class WallAvoider(Node):
         cmd_vel_topic = self.get_parameter(
             'cmd_vel_topic').get_parameter_value().string_value
 
+        # Get the different speeds and threshold parameters
         self.threshold = float(
             self.get_parameter('threshold').get_parameter_value().double_value)
         self.soft_distance = float(
