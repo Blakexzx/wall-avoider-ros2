@@ -8,7 +8,7 @@ from geometry_msgs.msg import TwistStamped
 
 
 class WallAvoider(Node):
-    # ---- States ----
+    # States
     STATE_FORWARD = 0
     STATE_TURN_LEFT = 1     # turn left (wall on right)
     STATE_TURN_RIGHT = 2    # turn right (wall on left)
@@ -16,34 +16,23 @@ class WallAvoider(Node):
     def __init__(self):
         super().__init__('wall_avoider')
 
-        # ---- Parameters (externalised) ----
-        # Sensor topics
         self.declare_parameter('left_sensor_topic', '/ps6')
         self.declare_parameter('right_sensor_topic', '/ps7')
         self.declare_parameter('cmd_vel_topic', '/cmd_vel')
 
-        # Distances in metres
-        # threshold: when we trigger a hard avoidance turn
-        # soft_distance: start gentle arc before hitting threshold
-        # escape_threshold: "very close" on BOTH sides = treat as corner
         self.declare_parameter('threshold', 0.15)
         self.declare_parameter('soft_distance', 0.22)
         self.declare_parameter('escape_threshold', 0.10)
 
-        # Speeds in Twist units: m/s (linear) and rad/s (angular)
         self.declare_parameter('forward_speed', 0.045)
         self.declare_parameter('turn_speed', 1.6)
 
-        # Control loop period (seconds)
         self.declare_parameter('control_period', 0.032)
 
-        # Desired hard turn angles (degrees)
-        #  - normal turn when one side hits threshold
-        #  - bigger turn when in a corner (both sides < escape_threshold)
         self.declare_parameter('turn_angle_deg', 110.0)
         self.declare_parameter('corner_turn_angle_deg', 150.0)
 
-        # ---- Read parameter values ----
+        # Read parameter values
         self.left_topic = self.get_parameter(
             'left_sensor_topic').get_parameter_value().string_value
         self.right_topic = self.get_parameter(
@@ -73,13 +62,10 @@ class WallAvoider(Node):
         if self.soft_distance < self.threshold:
             self.soft_distance = self.threshold * 1.3
 
-        # ---- Precompute how many steps for turns ----
-        # Normal hard turn
         angle_rad = math.radians(self.turn_angle_deg)
         steps_for_angle = angle_rad / (self.turn_speed * self.control_period)
         self.turn_steps_default = max(5, int(round(steps_for_angle)))  # min 5 steps
 
-        # Corner turn (bigger)
         corner_angle_rad = math.radians(self.corner_turn_angle_deg)
         corner_steps_for_angle = corner_angle_rad / (self.turn_speed * self.control_period)
         self.corner_turn_steps = max(
@@ -95,21 +81,19 @@ class WallAvoider(Node):
             f'corner_turn={self.corner_turn_angle_deg:.1f} deg -> {self.corner_turn_steps} steps'
         )
 
-        # ---- Publisher ----
+        # Publisher
         self.cmd_pub = self.create_publisher(TwistStamped, cmd_vel_topic, 10)
 
-        # ---- Subscriptions ----
+        # Subscriptions
         self.left_range = None
         self.right_range = None
         self.left_filt = None
         self.right_filt = None
         self.seen_sensors = False
 
-        # ---- State machine ----
         self.state = self.STATE_FORWARD
         self.turn_steps_remaining = 0
 
-        # Timer to mimic while(robot.step(TIME_STEP)) loop
         self.timer = self.create_timer(self.control_period, self.control_loop)
 
         self.get_logger().info(
@@ -117,11 +101,9 @@ class WallAvoider(Node):
             f'left={self.left_topic}, right={self.right_topic}, cmd_vel={cmd_vel_topic}'
         )
 
-        # Subscriptions to sensors
         self.create_subscription(Range, self.left_topic, self.left_callback, 10)
         self.create_subscription(Range, self.right_topic, self.right_callback, 10)
 
-    # ---- Sensor callbacks ----
     def left_callback(self, msg: Range):
         self.left_range = msg.range
         self._filter_update()
@@ -132,12 +114,11 @@ class WallAvoider(Node):
         self._filter_update()
         self._log_first_sensor()
 
-    # Low-pass filter to reduce jitter
     def _filter_update(self):
         if self.left_range is None or self.right_range is None:
             return
 
-        alpha = 0.3  # new weight
+        alpha = 0.3
         if self.left_filt is None:
             self.left_filt = self.left_range
             self.right_filt = self.right_range
@@ -155,9 +136,7 @@ class WallAvoider(Node):
                 f'right={self.right_filt:.3f} m'
             )
 
-    # ---- Main control loop (runs every control_period) ----
     def control_loop(self):
-        # If we don't have filtered sensor data yet, just drive gently forward
         if self.left_filt is None or self.right_filt is None:
             self._publish_cmd(self.forward_speed * 0.4, 0.0)
             return
@@ -165,7 +144,6 @@ class WallAvoider(Node):
         left_value = self.left_filt
         right_value = self.right_filt
 
-        # ---- State transitions ----
         if self.state == self.STATE_FORWARD:
             danger_left = left_value < self.threshold
             danger_right = right_value < self.threshold
@@ -175,42 +153,37 @@ class WallAvoider(Node):
             in_corner = very_close_left and very_close_right
 
             if in_corner:
-                # Corner: both very close -> big escape turn
                 if left_value < right_value:
                     self._start_turn_right(corner=True, reason="corner, LEFT closer")
                 else:
                     self._start_turn_left(corner=True, reason="corner, RIGHT closer")
 
             elif danger_left or danger_right:
-                # Normal hard avoidance: one side too close
                 if danger_left and not danger_right:
                     self._start_turn_right(corner=False, reason="wall on LEFT")
                 elif danger_right and not danger_left:
                     self._start_turn_left(corner=False, reason="wall on RIGHT")
                 else:
-                    # Both in danger but not super close -> still treat as hard turn
                     if left_value < right_value:
                         self._start_turn_right(corner=False, reason="both danger, LEFT closer")
                     else:
                         self._start_turn_left(corner=False, reason="both danger, RIGHT closer")
 
         elif self.state in (self.STATE_TURN_LEFT, self.STATE_TURN_RIGHT):
-            # Countdown turn steps; when done, go back to FORWARD
             self.turn_steps_remaining -= 1
             if self.turn_steps_remaining <= 0:
                 self.state = self.STATE_FORWARD
                 self.get_logger().info('STATE_FORWARD (finished timed turn)')
 
-        # ---- State actions: compute velocity ----
         lin_x = 0.0
         ang_z = 0.0
 
         if self.state == self.STATE_FORWARD:
-            # Base forward speed
+            # forward speed
             lin_x = self.forward_speed
             ang_z = 0.0
 
-            # Soft zone: arc away before getting near threshold
+            # arc away before getting near threshold
             soft_left = left_value < self.soft_distance
             soft_right = right_value < self.soft_distance
 
@@ -238,7 +211,7 @@ class WallAvoider(Node):
 
         self._publish_cmd(lin_x, ang_z)
 
-    # ---- Helpers ----
+    # Helpers
     def _start_turn_left(self, corner: bool, reason: str = ""):
         self.state = self.STATE_TURN_LEFT
         self.turn_steps_remaining = self.corner_turn_steps if corner else self.turn_steps_default

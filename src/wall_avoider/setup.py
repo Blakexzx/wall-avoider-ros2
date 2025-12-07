@@ -24,7 +24,6 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # executable name = package.module:function
             'wall_avoider_node = wall_avoider.wall_avoider_node:main',
         ],
     },
