@@ -10,6 +10,7 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
+    # Opens up the default webots world
     epuck_pkg_share = get_package_share_directory('webots_ros2_epuck')
 
     epuck_launch = IncludeLaunchDescription(
