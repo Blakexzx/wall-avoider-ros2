@@ -105,7 +105,7 @@ class WallAvoider(Node):
 
         self.create_subscription(Range, self.left_topic, self.left_callback, 10)
         self.create_subscription(Range, self.right_topic, self.right_callback, 10)
-
+    # All the callbacks - sensors
     def left_callback(self, msg: Range):
         self.left_range = msg.range
         self._filter_update()
