@@ -214,6 +214,7 @@ class WallAvoider(Node):
         self._publish_cmd(lin_x, ang_z)
 
     # Helpers
+    # These helpers help with different functions for the robots.
     def _start_turn_left(self, corner: bool, reason: str = ""):
         self.state = self.STATE_TURN_LEFT
         self.turn_steps_remaining = self.corner_turn_steps if corner else self.turn_steps_default
