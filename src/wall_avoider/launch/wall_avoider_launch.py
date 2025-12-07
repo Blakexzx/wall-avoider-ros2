@@ -1,3 +1,4 @@
+# Wall avoider launch - used to launch everything together.
 import os
 
 from launch import LaunchDescription
