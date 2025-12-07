@@ -1,0 +1,2 @@
+[console_scripts]
+wall_avoider_node = wall_avoider.wall_avoider_node:main

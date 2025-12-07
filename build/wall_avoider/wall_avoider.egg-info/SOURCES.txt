@@ -1,0 +1,17 @@
+package.xml
+setup.cfg
+setup.py
+../../build/wall_avoider/wall_avoider.egg-info/PKG-INFO
+../../build/wall_avoider/wall_avoider.egg-info/SOURCES.txt
+../../build/wall_avoider/wall_avoider.egg-info/dependency_links.txt
+../../build/wall_avoider/wall_avoider.egg-info/entry_points.txt
+../../build/wall_avoider/wall_avoider.egg-info/requires.txt
+../../build/wall_avoider/wall_avoider.egg-info/top_level.txt
+../../build/wall_avoider/wall_avoider.egg-info/zip-safe
+launch/wall_avoider_launch.py
+resource/wall_avoider
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py
+wall_avoider/__init__.py
+wall_avoider/wall_avoider_node.py

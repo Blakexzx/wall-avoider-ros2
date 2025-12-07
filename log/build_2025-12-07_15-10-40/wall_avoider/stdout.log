@@ -1,0 +1,20 @@
+running egg_info
+writing ../../build/wall_avoider/wall_avoider.egg-info/PKG-INFO
+writing dependency_links to ../../build/wall_avoider/wall_avoider.egg-info/dependency_links.txt
+writing entry points to ../../build/wall_avoider/wall_avoider.egg-info/entry_points.txt
+writing requirements to ../../build/wall_avoider/wall_avoider.egg-info/requires.txt
+writing top-level names to ../../build/wall_avoider/wall_avoider.egg-info/top_level.txt
+reading manifest file '../../build/wall_avoider/wall_avoider.egg-info/SOURCES.txt'
+writing manifest file '../../build/wall_avoider/wall_avoider.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+copying launch/wall_avoider_launch.py -> /home/webot/ros2_ws/install/wall_avoider/share/wall_avoider/launch
+running install_egg_info
+removing '/home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages/wall_avoider-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/wall_avoider/wall_avoider.egg-info to /home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages/wall_avoider-0.0.0-py3.12.egg-info
+running install_scripts
+Installing wall_avoider_node script to /home/webot/ros2_ws/install/wall_avoider/lib/wall_avoider
+writing list of installed files to '/home/webot/ros2_ws/build/wall_avoider/install.log'

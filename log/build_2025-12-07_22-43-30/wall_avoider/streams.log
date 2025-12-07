@@ -1,0 +1,24 @@
+[0.450s] Invoking command in '/home/webot/ros2_ws/src/wall_avoider': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/webot/ros2_ws/build/wall_avoider/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/wall_avoider build --build-base /home/webot/ros2_ws/build/wall_avoider/build install --record /home/webot/ros2_ws/build/wall_avoider/install.log --single-version-externally-managed install_data
+[0.603s] running egg_info
+[0.615s] writing ../../build/wall_avoider/wall_avoider.egg-info/PKG-INFO
+[0.616s] writing dependency_links to ../../build/wall_avoider/wall_avoider.egg-info/dependency_links.txt
+[0.616s] writing entry points to ../../build/wall_avoider/wall_avoider.egg-info/entry_points.txt
+[0.616s] writing requirements to ../../build/wall_avoider/wall_avoider.egg-info/requires.txt
+[0.617s] writing top-level names to ../../build/wall_avoider/wall_avoider.egg-info/top_level.txt
+[0.638s] reading manifest file '../../build/wall_avoider/wall_avoider.egg-info/SOURCES.txt'
+[0.639s] writing manifest file '../../build/wall_avoider/wall_avoider.egg-info/SOURCES.txt'
+[0.639s] running build
+[0.639s] running build_py
+[0.639s] copying wall_avoider/wall_avoider_node.py -> /home/webot/ros2_ws/build/wall_avoider/build/lib/wall_avoider
+[0.639s] running install
+[0.643s] running install_lib
+[0.653s] copying /home/webot/ros2_ws/build/wall_avoider/build/lib/wall_avoider/wall_avoider_node.py -> /home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages/wall_avoider
+[0.653s] byte-compiling /home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages/wall_avoider/wall_avoider_node.py to wall_avoider_node.cpython-312.pyc
+[0.655s] running install_data
+[0.655s] running install_egg_info
+[0.665s] removing '/home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages/wall_avoider-0.0.0-py3.12.egg-info' (and everything under it)
+[0.665s] Copying ../../build/wall_avoider/wall_avoider.egg-info to /home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages/wall_avoider-0.0.0-py3.12.egg-info
+[0.666s] running install_scripts
+[0.742s] Installing wall_avoider_node script to /home/webot/ros2_ws/install/wall_avoider/lib/wall_avoider
+[0.743s] writing list of installed files to '/home/webot/ros2_ws/build/wall_avoider/install.log'
+[0.758s] Invoked command in '/home/webot/ros2_ws/src/wall_avoider' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/webot/ros2_ws/build/wall_avoider/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/webot/ros2_ws/install/wall_avoider/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/wall_avoider build --build-base /home/webot/ros2_ws/build/wall_avoider/build install --record /home/webot/ros2_ws/build/wall_avoider/install.log --single-version-externally-managed install_data
