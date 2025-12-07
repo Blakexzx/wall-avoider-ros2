@@ -20,7 +20,8 @@ class WallAvoider(Node):
         self.declare_parameter('right_sensor_topic', '/ps7')
         self.declare_parameter('cmd_vel_topic', '/cmd_vel')
 
-        self.declare_parameter('threshold', 0.15)
+        # I had to tune the distance threshold multiple times, to get the right threshold so that it wouldn't touch the wall.
+        self.declare_parameter('threshold', 0.15) 
         self.declare_parameter('soft_distance', 0.22)
         self.declare_parameter('escape_threshold', 0.10)
 
