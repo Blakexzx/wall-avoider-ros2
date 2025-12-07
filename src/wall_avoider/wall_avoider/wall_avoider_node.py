@@ -154,7 +154,8 @@ class WallAvoider(Node):
             very_close_left = left_value < self.escape_threshold
             very_close_right = right_value < self.escape_threshold
             in_corner = very_close_left and very_close_right
-
+            
+            # checks if the robot is stuck in corner.
             if in_corner:
                 if left_value < right_value:
                     self._start_turn_right(corner=True, reason="corner, LEFT closer")
@@ -222,7 +223,7 @@ class WallAvoider(Node):
         self.get_logger().info(
             f'STATE_TURN_LEFT ({reason}), steps={self.turn_steps_remaining}'
         )
-
+    
     def _start_turn_right(self, corner: bool, reason: str = ""):
         self.state = self.STATE_TURN_RIGHT
         self.turn_steps_remaining = self.corner_turn_steps if corner else self.turn_steps_default
