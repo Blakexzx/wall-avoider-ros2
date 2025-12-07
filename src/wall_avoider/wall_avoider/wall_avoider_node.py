@@ -137,7 +137,7 @@ class WallAvoider(Node):
                 f'First filtered readings: left={self.left_filt:.3f} m, '
                 f'right={self.right_filt:.3f} m'
             )
-
+    # The control loop, this loop runs while webots is running and is basically the whole control of the robot.
     def control_loop(self):
         if self.left_filt is None or self.right_filt is None:
             self._publish_cmd(self.forward_speed * 0.4, 0.0)
