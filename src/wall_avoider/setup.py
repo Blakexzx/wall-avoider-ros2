@@ -1,3 +1,4 @@
+# Added setup.py code and the dependecies for the wall avoider. if they didn't these dependencies it wouldn't run.
 from setuptools import setup
 import os
 from glob import glob
